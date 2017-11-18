@@ -2,7 +2,7 @@
 
 ### What is this repository for? ###
 
-The product prediction engine for Marvel United
+Transaction service - Service that handles events related to transaction.
 Version - 1.0
 
 To send a message use the below curl command:

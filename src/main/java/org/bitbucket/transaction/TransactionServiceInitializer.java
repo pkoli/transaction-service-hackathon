@@ -1,12 +1,12 @@
-package org.bitbucket.marvelbrain;
+package org.bitbucket.transaction;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MarvelBrainApplication {
+public class TransactionServiceInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MarvelBrainApplication.class, args);
+		SpringApplication.run(TransactionServiceInitializer.class, args);
 	}
 }

@@ -1,4 +1,4 @@
-package org.bitbucket.marvelbrain.controller;
+package org.bitbucket.transaction.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MessageController {
+public class EventController {
 
     @Autowired
     private KafkaTemplate template;
@@ -18,10 +18,10 @@ public class MessageController {
     @Value(value = "${kafka.topic}")
     private String topic;
 
-    @PostMapping(value = "/message")
-    public ResponseEntity sendMessage(@RequestBody String message){
+    @PostMapping(value = "/transaction")
+    public ResponseEntity processTransaction(@RequestBody String transactionEvent){
         try {
-            template.send(topic, message);
+            template.send(topic, transactionEvent);
         }
         catch (Exception e){
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

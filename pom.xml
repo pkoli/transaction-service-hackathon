@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.bitbucket</groupId>
-	<artifactId>marvel-brain</artifactId>
+	<artifactId>transaction-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>marvel-brain</name>
-	<description>Demo project for Spring Boot</description>
+	<name>transaction-service</name>
+	<description>Service that handles transactions of customers</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

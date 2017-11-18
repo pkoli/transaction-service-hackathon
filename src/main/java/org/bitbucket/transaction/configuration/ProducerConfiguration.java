@@ -1,4 +1,4 @@
-package org.bitbucket.marvelbrain.configuration;
+package org.bitbucket.transaction.configuration;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
