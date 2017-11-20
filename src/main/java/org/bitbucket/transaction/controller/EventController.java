@@ -1,10 +1,9 @@
 package org.bitbucket.transaction.controller;
 
+import org.bitbucket.transaction.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,19 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventController {
 
     @Autowired
-    private KafkaTemplate template;
-
-    @Value(value = "${kafka.topic}")
-    private String topic;
+    private TransactionService transactionService;
 
     @PostMapping(value = "/transaction")
     public ResponseEntity processTransaction(@RequestBody String transactionEvent){
-        try {
-            template.send(topic, transactionEvent);
-        }
-        catch (Exception e){
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        transactionService.processTransaction(transactionEvent);
         return new ResponseEntity(HttpStatus.OK);
     }
 
