@@ -1,6 +1,7 @@
 package org.bitbucket.transaction.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 public class Transaction implements Serializable{
 
     @Id
+    @GeneratedValue
     private Integer transactionId;
 
     private String transcationType;
@@ -16,7 +18,7 @@ public class Transaction implements Serializable{
 
     private String customerId;
 
-    private String transcationDescription;
+    private String transactionDescription;
 
     public Integer getTransactionId() {
         return transactionId;
@@ -50,12 +52,12 @@ public class Transaction implements Serializable{
         this.customerId = customerId;
     }
 
-    public String getTranscationDescription() {
-        return transcationDescription;
+    public String getTransactionDescription() {
+        return transactionDescription;
     }
 
-    public void setTranscationDescription(String transcationDescription) {
-        this.transcationDescription = transcationDescription;
+    public void setTransactionDescription(String transactionDescription) {
+        this.transactionDescription = transactionDescription;
     }
 
     public Transaction(){
