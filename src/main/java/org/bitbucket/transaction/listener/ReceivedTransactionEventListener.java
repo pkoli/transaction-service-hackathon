@@ -1,11 +1,7 @@
 package org.bitbucket.transaction.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bitbucket.transaction.entity.Transaction;
-import org.bitbucket.transaction.event.AnalyseTransactionEvent;
 import org.bitbucket.transaction.event.ReceivedTransactionEvent;
-import org.bitbucket.transaction.producer.KafkaProducer;
-import org.bitbucket.transaction.repository.TransactionRepository;
 import org.bitbucket.transaction.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;

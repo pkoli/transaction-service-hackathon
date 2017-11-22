@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private ProductRepository productRepository;
@@ -42,31 +42,28 @@ public class TransactionServiceImpl implements TransactionService{
 
         Product product = productRepository.findByTransactionTypeAndMerchantName(event.getTransactionType(), event.getMerchantName());
 
-        if(product.getProductId() != null) {
+        if (product != null) {
 
             TransactionFeedback feedback = transactionFeedbackRepository.findByCustomerIdAndProductId(event.getCustomerId(),
                     String.valueOf(product.getProductId()));
 
-            if (!feedback.isAcceptStatus()) {
+            if (feedback != null && !feedback.isAcceptStatus()) {
                 feedback.setAcceptStatus(true);
                 transactionFeedbackRepository.save(feedback);
                 return;
             }
         }
 
-        if(!transactionFeedbackRepository.exists(event.getCustomerId())) {
+        AnalyseTransactionEvent analyseTransactionEvent = new AnalyseTransactionEvent();
 
-            AnalyseTransactionEvent analyseTransactionEvent = new AnalyseTransactionEvent();
+        analyseTransactionEvent.setCustomerId(event.getCustomerId());
+        analyseTransactionEvent.setTransactionAmount(event.getTransactionAmount());
+        analyseTransactionEvent.setTransactionDate(event.getTransactionDate());
+        analyseTransactionEvent.setTransactionDescription(event.getTransactionDescription());
+        analyseTransactionEvent.setTransactionType(event.getTransactionType());
+        analyseTransactionEvent.setMerchantName(event.getMerchantName());
 
-            event.setCustomerId(event.getCustomerId());
-            event.setTransactionAmount(event.getTransactionAmount());
-            event.setTransactionDate(event.getTransactionDate());
-            event.setTransactionDescription(event.getTransactionDescription());
-            event.setTransactionType(event.getTransactionType());
-
-            kafkaProducer.sendEvent(analyseTransactionEvent);
-
-        }
+        kafkaProducer.sendEvent(analyseTransactionEvent);
 
     }
 }

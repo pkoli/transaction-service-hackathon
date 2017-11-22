@@ -12,6 +12,8 @@ public class AnalyseTransactionEvent {
 
     private String transactionDate;
 
+    private String merchantName;
+
     public String getTransactionType() {
         return transactionType;
     }
@@ -52,4 +54,11 @@ public class AnalyseTransactionEvent {
         this.transactionDate = transactionDate;
     }
 
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
+
+    public String getMerchantName() {
+        return merchantName;
+    }
 }
