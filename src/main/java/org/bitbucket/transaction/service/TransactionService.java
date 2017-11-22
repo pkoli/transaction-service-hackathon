@@ -1,6 +1,8 @@
 package org.bitbucket.transaction.service;
 
+import org.bitbucket.transaction.event.ReceivedTransactionEvent;
+
 public interface TransactionService {
 
-    void processTransaction(String transaction);
+    void processTransaction(ReceivedTransactionEvent receivedTransactionEvent);
 }

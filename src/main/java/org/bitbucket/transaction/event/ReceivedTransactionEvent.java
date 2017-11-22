@@ -1,6 +1,6 @@
 package org.bitbucket.transaction.event;
 
-public class AnalyseTransactionEvent {
+public class ReceivedTransactionEvent {
 
     private String transactionType;
 
@@ -51,5 +51,4 @@ public class AnalyseTransactionEvent {
     public void setTransactionDate(String transactionDate) {
         this.transactionDate = transactionDate;
     }
-
 }

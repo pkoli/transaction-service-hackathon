@@ -20,6 +20,16 @@ public class Transaction implements Serializable{
 
     private String transactionDescription;
 
+    private String transactionDate;
+
+    public String getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(String transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
     public Integer getTransactionId() {
         return transactionId;
     }

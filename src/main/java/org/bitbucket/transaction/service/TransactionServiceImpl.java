@@ -1,5 +1,8 @@
 package org.bitbucket.transaction.service;
 
+import org.bitbucket.transaction.entity.Transaction;
+import org.bitbucket.transaction.event.AnalyseTransactionEvent;
+import org.bitbucket.transaction.event.ReceivedTransactionEvent;
 import org.bitbucket.transaction.producer.Producer;
 import org.bitbucket.transaction.repository.ProductRepository;
 import org.bitbucket.transaction.repository.TransactionFeedbackRepository;
@@ -20,16 +23,38 @@ public class TransactionServiceImpl implements TransactionService{
     private TransactionRepository transactionRepository;
 
     @Autowired
+    private TransactionFeedbackRepository transactionFeedbackRepository;
+
+    @Autowired
     private Producer kafkaProducer;
 
     @Override
-    public void processTransaction(String transaction) {
+    public void processTransaction(ReceivedTransactionEvent event) {
+
+        Transaction transaction = new Transaction();
+
+        transaction.setCustomerId(String.valueOf(event.getCustomerId()));
+        transaction.setTransactionAmount(event.getTransactionAmount());
+        transaction.setTransactionDescription(event.getTransactionDescription());
+        transaction.setTranscationType(event.getTransactionType());
+        transaction.setTransactionDate(event.getTransactionDate());
+
+        transactionRepository.save(transaction);
+
+
+        AnalyseTransactionEvent analyseTransactionEvent = new AnalyseTransactionEvent();
+
+        event.setCustomerId(event.getCustomerId());
+        event.setTransactionAmount(event.getTransactionAmount());
+        event.setTransactionDate(event.getTransactionDate());
+        event.setTransactionDescription(event.getTransactionDescription());
+        event.setTransactionType(event.getTransactionType());
+
 
         //TODO Transaction pattern matching logic
-        //TODO Save incoming transaction to db
         //TODO Transaction Feedback logic
 
-        kafkaProducer.sendMessage(transaction);
+        kafkaProducer.sendEvent(analyseTransactionEvent);
 
     }
 }

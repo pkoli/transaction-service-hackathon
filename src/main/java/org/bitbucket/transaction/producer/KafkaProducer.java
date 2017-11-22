@@ -1,5 +1,6 @@
 package org.bitbucket.transaction.producer;
 
+import org.bitbucket.transaction.event.AnalyseTransactionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,7 +16,7 @@ public class KafkaProducer implements Producer{
     private String topic;
 
     @Override
-    public void sendMessage(String message) {
-        kafkaTemplate.send(topic, message);
+    public void sendEvent(AnalyseTransactionEvent event) {
+        kafkaTemplate.send(topic, event);
     }
 }
