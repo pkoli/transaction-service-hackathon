@@ -33,7 +33,7 @@ public class NotificationEventListener {
 
         TransactionFeedback transactionFeedback = new TransactionFeedback();
         transactionFeedback.setCustomerId(event.getCustomerId());
-        transactionFeedback.setProductId(event.getProductId());
+        transactionFeedback.setProductId(String.valueOf(event.getProductId()));
 
         transactionFeedbackRepository.save(transactionFeedback);
     }

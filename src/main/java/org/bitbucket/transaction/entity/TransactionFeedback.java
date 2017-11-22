@@ -16,24 +16,14 @@ public class TransactionFeedback implements Serializable{
 
     private boolean acceptStatus;
 
-    private String transactionType;
+    private String productId;
 
-    private String transactionAmount;
-
-    public String getTransactionType() {
-        return transactionType;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
-    }
-
-    public String getTransactionAmount() {
-        return transactionAmount;
-    }
-
-    public void setTransactionAmount(String transactionAmount) {
-        this.transactionAmount = transactionAmount;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public boolean isAcceptStatus() {
