@@ -1,10 +1,10 @@
 package org.bitbucket.transaction.service;
 
 import org.bitbucket.transaction.entity.Transaction;
+import org.bitbucket.transaction.entity.TransactionFeedback;
 import org.bitbucket.transaction.event.AnalyseTransactionEvent;
 import org.bitbucket.transaction.event.ReceivedTransactionEvent;
 import org.bitbucket.transaction.producer.Producer;
-import org.bitbucket.transaction.repository.ProductRepository;
 import org.bitbucket.transaction.repository.TransactionFeedbackRepository;
 import org.bitbucket.transaction.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionServiceImpl implements TransactionService{
-
-    @Autowired
-    private TransactionFeedbackRepository transactionFeedbackRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -41,20 +35,29 @@ public class TransactionServiceImpl implements TransactionService{
 
         transactionRepository.save(transaction);
 
+        TransactionFeedback feedback = transactionFeedbackRepository.findByCustomerIdAndTransactionTypeAndTransactionAmount(event.getCustomerId(),
+                event.getTransactionType(), event.getTransactionAmount());
 
-        AnalyseTransactionEvent analyseTransactionEvent = new AnalyseTransactionEvent();
+        if(!feedback.isAcceptStatus()){
+            feedback.setAcceptStatus(true);
+            transactionFeedbackRepository.save(feedback);
+            return;
+        }
 
-        event.setCustomerId(event.getCustomerId());
-        event.setTransactionAmount(event.getTransactionAmount());
-        event.setTransactionDate(event.getTransactionDate());
-        event.setTransactionDescription(event.getTransactionDescription());
-        event.setTransactionType(event.getTransactionType());
+        if(!transactionFeedbackRepository.exists(event.getCustomerId())) {
+            //TODO Transaction pattern matching logic
 
+            AnalyseTransactionEvent analyseTransactionEvent = new AnalyseTransactionEvent();
 
-        //TODO Transaction pattern matching logic
-        //TODO Transaction Feedback logic
+            event.setCustomerId(event.getCustomerId());
+            event.setTransactionAmount(event.getTransactionAmount());
+            event.setTransactionDate(event.getTransactionDate());
+            event.setTransactionDescription(event.getTransactionDescription());
+            event.setTransactionType(event.getTransactionType());
 
-        kafkaProducer.sendEvent(analyseTransactionEvent);
+            kafkaProducer.sendEvent(analyseTransactionEvent);
+
+        }
 
     }
 }

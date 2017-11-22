@@ -4,4 +4,7 @@ import org.bitbucket.transaction.entity.TransactionFeedback;
 import org.springframework.data.repository.CrudRepository;
 
 public interface TransactionFeedbackRepository extends CrudRepository<TransactionFeedback, Integer>{
+
+    TransactionFeedback findByCustomerIdAndTransactionTypeAndTransactionAmount(Integer customerId, String transactionType,
+                                                                               String transactionAmount);
 }
