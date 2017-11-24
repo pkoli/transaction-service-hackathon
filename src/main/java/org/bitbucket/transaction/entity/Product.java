@@ -32,7 +32,6 @@ public class Product {
     }
 
     public Integer getProductId() {
-
         return productId;
     }
 

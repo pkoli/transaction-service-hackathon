@@ -28,6 +28,8 @@ public class ReceivedTransactionEventListener {
             e.printStackTrace();
         }
 
+        System.out.println("ReceivedEvent: "+notificationEvent);
+
         transactionService.processTransaction(event);
     }
 }
